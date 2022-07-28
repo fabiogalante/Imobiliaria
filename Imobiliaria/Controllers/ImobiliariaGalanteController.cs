@@ -2,15 +2,12 @@
 using Imobiliaria.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 namespace Imobiliaria.Controllers;
-
 
 [ApiController]
 [Route("v1")]
 public class ImobiliariaGalanteController : ControllerBase
 {
-
     [HttpGet]
     [Route("imobiliarias")]
     public async Task<IActionResult> GetAsync([FromServices] AppDbContext context)
@@ -102,15 +99,13 @@ public class ImobiliariaGalanteController : ControllerBase
     [HttpDelete("imobiliarias/{id}")]
     public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id)
     {
-
-
         var imobiliaria = await context
             .Imobiliarias
             .FirstOrDefaultAsync(_ => _.Id == id);
 
         if (imobiliaria == null)
             return NotFound();
-
+        
         try
         {
             context.Imobiliarias.Remove(imobiliaria);
@@ -120,7 +115,6 @@ public class ImobiliariaGalanteController : ControllerBase
         {
             return StatusCode(500);
         }
-
         return Ok();
     }
 
