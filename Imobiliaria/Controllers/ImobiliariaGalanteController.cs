@@ -1,4 +1,5 @@
 ﻿using Imobiliaria.Data;
+using Imobiliaria.Models;
 using Imobiliaria.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,7 @@ public class ImobiliariaGalanteController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var imobiliaria = new Models.Imobiliaria
+        var imobiliaria = new ImobiliariaGalante
         {
             Descricao = imobiliariaViewModel.Descricao,
             Foto = imobiliariaViewModel.Foto,
@@ -105,7 +106,7 @@ public class ImobiliariaGalanteController : ControllerBase
 
         if (imobiliaria == null)
             return NotFound();
-        
+
         try
         {
             context.Imobiliarias.Remove(imobiliaria);
