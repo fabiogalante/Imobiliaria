@@ -7,39 +7,39 @@ namespace Imobiliaria.Controllers;
 
 [ApiController]
 [Route("v1")]
-public class ImobiliariaGalanteController : ControllerBase
+public class AnunciosController : ControllerBase
 {
     [HttpGet]
-    [Route("imobiliarias")]
+    [Route("anuncios")]
     public async Task<IActionResult> GetAsync([FromServices] AppDbContext context)
     {
         var imobiliarias = await context
-            .Imobiliarias
+            .Anuncios
             .AsNoTracking()
             .ToListAsync();
         return Ok(imobiliarias);
     }
 
     [HttpGet]
-    [Route("imobiliarias/{id:int}")]
+    [Route("anuncios/{id:int}")]
     public async Task<IActionResult> GetByIdAsync([FromServices] AppDbContext context, [FromRoute] int id)
     {
         var imobiliaria = await context
-            .Imobiliarias
+            .Anuncios
             .AsNoTracking()
             .FirstOrDefaultAsync(_ => _.Id == id);
 
         return imobiliaria != null ? Ok(imobiliaria) : NotFound();
     }
 
-    [HttpPost("imobiliarias")]
+    [HttpPost("anuncios")]
     public async Task<IActionResult> PostAsync([FromServices] AppDbContext context,
         [FromBody] CriarImobiliariaViewModel imobiliariaViewModel)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var imobiliaria = new ImobiliariaGalante
+        var imobiliaria = new Anuncio
         {
             Descricao = imobiliariaViewModel.Descricao,
             Foto = imobiliariaViewModel.Foto,
@@ -49,7 +49,7 @@ public class ImobiliariaGalanteController : ControllerBase
 
         try
         {
-            await context.Imobiliarias.AddAsync(imobiliaria);
+            await context.Anuncios.AddAsync(imobiliaria);
             await context.SaveChangesAsync();
         }
         catch
@@ -59,12 +59,12 @@ public class ImobiliariaGalanteController : ControllerBase
 
 
 
-        return Created($"v1/imobiliaria/{imobiliaria.Id}", imobiliaria);
+        return Created($"v1/anuncios/{imobiliaria.Id}", imobiliaria);
 
     }
 
 
-    [HttpPut("imobiliarias/{id}")]
+    [HttpPut("anuncios/{id}")]
     public async Task<IActionResult> PutAsync([FromServices] AppDbContext context,
         [FromBody] CriarImobiliariaViewModel imobiliariaViewModel, [FromRoute] int id)
     {
@@ -72,7 +72,7 @@ public class ImobiliariaGalanteController : ControllerBase
             return BadRequest();
 
         var imobiliaria = await context
-            .Imobiliarias
+            .Anuncios
             .FirstOrDefaultAsync(_ => _.Id == id);
 
         if (imobiliaria == null)
@@ -85,7 +85,7 @@ public class ImobiliariaGalanteController : ControllerBase
             imobiliaria.Titulo = imobiliariaViewModel.Titulo;
             imobiliaria.Valor = imobiliariaViewModel.Valor;
 
-            context.Imobiliarias.Update(imobiliaria);
+            context.Anuncios.Update(imobiliaria);
             await context.SaveChangesAsync();
         }
         catch
@@ -97,11 +97,11 @@ public class ImobiliariaGalanteController : ControllerBase
     }
 
 
-    [HttpDelete("imobiliarias/{id}")]
+    [HttpDelete("anuncios/{id}")]
     public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id)
     {
         var imobiliaria = await context
-            .Imobiliarias
+            .Anuncios
             .FirstOrDefaultAsync(_ => _.Id == id);
 
         if (imobiliaria == null)
@@ -109,7 +109,7 @@ public class ImobiliariaGalanteController : ControllerBase
 
         try
         {
-            context.Imobiliarias.Remove(imobiliaria);
+            context.Anuncios.Remove(imobiliaria);
             await context.SaveChangesAsync();
         }
         catch
